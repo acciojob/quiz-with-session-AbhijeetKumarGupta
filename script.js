@@ -5,11 +5,6 @@ const scoreElement = document.getElementById("score");
 
 let userAnswers = JSON.parse(sessionStorage.getItem("progress")) || [];
 
-const savedScore = localStorage.getItem("score");
-if (savedScore !== null) {
-  scoreElement.textContent = `Your score is ${savedScore} out of 5.`;
-}
-
 questionsElement.addEventListener("change", (event) => {
   if (event.target.type === "radio") {
     const index = Number(event.target.name.split("-")[1]);
@@ -30,6 +25,7 @@ submitButton.addEventListener("click", () => {
   scoreElement.textContent = `Your score is ${score} out of 5.`;
   localStorage.setItem("score", score);
 });
+
 // Do not change code below this line
 // This code will just display the questions to the screen
 const questions = [
@@ -50,7 +46,7 @@ const questions = [
   },
   {
     question: "Which is the largest planet in our solar system?",
-    choices: ["Earth", "Jupiter", "Mars"],
+    choices: ["Earth", "Jupiter", "Mars", "Saturn"],
     answer: "Jupiter",
   },
   {
@@ -67,20 +63,25 @@ function renderQuestions() {
     const questionElement = document.createElement("div");
     const questionText = document.createTextNode(question.question);
     questionElement.appendChild(questionText);
+
     for (let j = 0; j < question.choices.length; j++) {
       const choice = question.choices[j];
       const choiceElement = document.createElement("input");
       choiceElement.setAttribute("type", "radio");
       choiceElement.setAttribute("name", `question-${i}`);
       choiceElement.setAttribute("value", choice);
+
       if (userAnswers[i] === choice) {
         choiceElement.setAttribute("checked", true);
       }
+
       const choiceText = document.createTextNode(choice);
       questionElement.appendChild(choiceElement);
       questionElement.appendChild(choiceText);
     }
+
     questionsElement.appendChild(questionElement);
   }
 }
+
 renderQuestions();
